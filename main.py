@@ -1,16 +1,5 @@
-from random import choice
-import json
-from rich.console import Console
-dinner_ideas =
+from modules.functions import console, load_json, save_json
 
-console = Console()
-
-
-def load_json(file_path: str) -> dict:
-    """
-    function to load a json and return it as a dictionary
-    """
-    try:
-        with open(file_path, "r") as file:
-    except FileNotFoundError:
-        console.print()
+if __name__ == "__main__":
+    recipes = load_json(file_path="database", file_name="recipe_list")
+    console.print(recipes)

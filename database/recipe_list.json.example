@@ -7,6 +7,6 @@
       "produce": ["garlic", "parsley", "lemon"],
       "misc": ["olive oil", "dry white wine"]
     },
-    " last_cooked": ""
+    "last_cooked": ""
   }
 }
