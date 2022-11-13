@@ -1,6 +1,7 @@
 """Python Script that will help you decide what to make for dinner for the week"""
 # standard imports
-# TODO: add cracked chicken
+# TODO: add functionality to use runner ups
+# TODO: add save functionality for weekly recipes
 
 from modules.functions import console, load_json, save_json, evaluate_recipes, choose_recipes
 
