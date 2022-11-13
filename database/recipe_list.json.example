@@ -1,0 +1,12 @@
+{
+  "shrimp scampi": {
+    "ingredients": {
+      "meat": ["large shrimp"],
+      "dairy": ["butter"],
+      "seasoning": ["salt", "pepper", "garlic powder"],
+      "produce": ["garlic", "parsley", "lemon"],
+      "misc": ["olive oil", "dry white wine"]
+    },
+    " last_cooked": ""
+  }
+}
