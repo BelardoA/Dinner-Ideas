@@ -9,6 +9,6 @@ if __name__ == "__main__":
     recipes = load_json(file_path="database", file_name="recipe_list")
     eligible_recipes, runner_ups = evaluate_recipes(recipes)
     menu = choose_recipes(eligible_recipes, runner_ups, recipes)
-    test = combine_ingredients(menu)
+    ingredients = combine_ingredients(menu)
     console.print(menu.keys())
-    print(test)
+    console.print(ingredients)
