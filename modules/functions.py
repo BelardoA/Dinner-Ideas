@@ -1,12 +1,12 @@
 """All the functions that make the script work"""
 # Standard imports
 import json
-import sys
 import os
+import sys
+from datetime import datetime, timedelta
+from os.path import exists
 from random import choice
 from typing import Tuple
-from os.path import exists
-from datetime import datetime, timedelta
 
 from rich.console import Console
 
@@ -100,7 +100,7 @@ def evaluate_recipes(recipes: dict) -> Tuple[dict, dict]:
     return eligible_recipes, runner_ups
 
 
-def choose_recipes(eligible_recipes: dict, runner_ups: dict) -> dict:
+def choose_recipes(eligible_recipes: dict, runner_ups: dict, all_recipes: dict) -> dict:
     """
     function to randomly choose from eligible_recipes, if eligible_recipes
     doesn't contain enough items, it will use runner_ups to fill the remaining recipes
@@ -108,13 +108,40 @@ def choose_recipes(eligible_recipes: dict, runner_ups: dict) -> dict:
     recipes = []
     chosen_recipes = {}
     # populate recipes list with all possible recipes
-    # see if eligible_recipes has 7 or more recipes
-    if len(eligible_recipes) >= 7:
-        for recipe in eligible_recipes:
+    for recipe in eligible_recipes:
+        recipes.append(recipe)
+    # see if recipes has at least 7 recipes
+    if len(recipes) < 7:
+        for recipe in runner_ups:
             recipes.append(recipe)
 
+    # choose 7 random recipes from the vetted recipes list
     for i in range(7):
+        # choose a recipe
         recipe = choice(recipes)
-        chosen_recipes[recipe] = eligible_recipes[recipe]
+
+        # set the chose_recipes dictionary to the recipe information
+        chosen_recipes[recipe] = all_recipes[recipe]
+
+        # remove the selected recipe from the list to prevent duplicate recipes
         recipes.pop(recipes.index(recipe))
+    # return the chosen recipes
     return chosen_recipes
+
+
+def combine_ingredients(recipes: dict) -> dict:
+    """
+    function to combine the ingredients for the provided recipes
+    """
+    grocery_list = {
+        "meat": [],
+        "dairy": [],
+        "seasoning": [],
+        "produce": [],
+        "misc": []
+    }
+    for recipe in recipes:
+        for ingredient in recipes[recipe]["ingredients"]:
+            for item in recipes[recipe]["ingredients"][ingredient]:
+                grocery_list[ingredient].append(item)
+    return grocery_list
