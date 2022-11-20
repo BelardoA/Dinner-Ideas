@@ -1,8 +1,10 @@
 """Python Script that will help you decide what to make for dinner for the week"""
+import json
 # TODO: add save functionality for weekly recipes
 
 # standard imports
 import sys
+from rich.pretty import pprint
 from modules.functions import (console, load_json, save_json, evaluate_recipes,
                                choose_recipes, combine_ingredients, get_fast_food)
 
@@ -41,6 +43,9 @@ if __name__ == "__main__":
         # add the selected fast food item to the menu
         menu.update({fast_food_choice: "fast food Friday!"})
     # print out the menu in the console
-    console.print(f"[yellow]{menu.keys()}")
+    console.rule("[bold red]Menu")
+    pprint(list(menu.keys()))
     # print out the ingredients needed for the recipes
-    console.print(f"[green]{ingredients}")
+    console.rule("[bold red]Ingredients")
+    pprint(ingredients)
+#    console.print(f"[green]{json.dumps(ingredients, sort_keys=True, indent=4)}")
