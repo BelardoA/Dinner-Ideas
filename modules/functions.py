@@ -100,7 +100,7 @@ def evaluate_recipes(recipes: dict) -> Tuple[dict, dict]:
     return eligible_recipes, runner_ups
 
 
-def choose_recipes(eligible_recipes: dict, runner_ups: dict, all_recipes: dict) -> dict:
+def choose_recipes(eligible_recipes: dict, runner_ups: dict, all_recipes: dict, days: int) -> dict:
     """
     function to randomly choose from eligible_recipes, if eligible_recipes
     doesn't contain enough items, it will use runner_ups to fill the remaining recipes
@@ -110,13 +110,13 @@ def choose_recipes(eligible_recipes: dict, runner_ups: dict, all_recipes: dict) 
     # populate recipes list with all possible recipes
     for recipe in eligible_recipes:
         recipes.append(recipe)
-    # see if recipes has at least 7 recipes
-    if len(recipes) < 7:
+    # see if recipes has the # of requested recipes
+    if len(recipes) < days:
         for recipe in runner_ups:
             recipes.append(recipe)
 
-    # choose 7 random recipes from the vetted recipes list
-    for i in range(7):
+    # choose x days of random recipes from the vetted recipes list
+    for i in range(days):
         # choose a recipe
         recipe = choice(recipes)
 
@@ -133,6 +133,7 @@ def combine_ingredients(recipes: dict) -> dict:
     """
     function to combine the ingredients for the provided recipes
     """
+    # set up dictionary for each ingredient category
     grocery_list = {
         "meat": [],
         "dairy": [],
@@ -140,8 +141,26 @@ def combine_ingredients(recipes: dict) -> dict:
         "produce": [],
         "misc": []
     }
+    # iterate through the recipes
     for recipe in recipes:
+        # iterate through the ingredients for the recipes
         for ingredient in recipes[recipe]["ingredients"]:
+            # iterate through the individual items in the list of ingredients category
             for item in recipes[recipe]["ingredients"][ingredient]:
+                # add the item to the grocery_list dictionary
                 grocery_list[ingredient].append(item)
+    # return the grocery list of all the ingredients in the appropriate lists
     return grocery_list
+
+
+def get_fast_food() -> str:
+    """
+    function to select a random fast food item from
+    the fastfood_list.json file and returns it
+    """
+    # load the fastfood_list.json file
+    fast_food = load_json(file_path="database", file_name="fastfood_list")
+    # select a random item from the list of fastfood options
+    fast_food_choice = choice(fast_food["fastfood"])
+    # return the selection as a string
+    return fast_food_choice
