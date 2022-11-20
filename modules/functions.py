@@ -14,21 +14,21 @@ console = Console()
 today = datetime.now()
 
 
-def date_to_str(date: datetime, format="%m/%d/%Y") -> str:
+def date_to_str(date: datetime, str_format="%m/%d/%Y") -> str:
     """
     function to convert a datetime object into a string
     """
-    return date.strftime(format)
+    return date.strftime(str_format)
 
 
-def str_to_date(date: str, format="%m/%d/%Y") -> datetime:
+def str_to_date(date: str, str_format="%m/%d/%Y") -> datetime:
     """
     function to convert a string into a datetime object, if the date
     is blank, go back 12 days to make the recipe eligible
     """
     # see if the string provided isn't blank
     if date != "":
-        date_format = datetime.strptime(date, format)
+        date_format = datetime.strptime(date, str_format)
     else:
         # use date of 12 days ago to make the recipe eligible
         date_format = today - timedelta(days=12)
@@ -43,16 +43,18 @@ def load_json(file_path: str, file_name: str) -> dict:
     if exists(file_path):
         try:
             # try to open the file
-            with open(f"{file_path}/{file_name}.json", "r") as file:
+            with open(f"{file_path}/{file_name}.json", "r", encoding="utf-8") as file:
                 # set data to the loaded json file
                 data = json.load(file)
         except FileNotFoundError as err:
             # let the user know the json cannot be found and exit
-            console.print(f"[red] ERROR: Unable to locate {file_name}.{file_path}.json!", err)
+            console.print(
+                f"[red] ERROR: Unable to locate {file_name}.{file_path}.json!", err
+            )
             sys.exit(1)
     else:
         # tell the user the directory doesn't exist and exit
-        console.print(f"[red] ERROR: File path doesn't exist!")
+        console.print(f"[red] ERROR: {file_path} doesn't exist!")
         sys.exit(1)
     # return loaded json file
     return data
@@ -66,7 +68,7 @@ def save_json(file_path: str, file_name: str, data: dict) -> None:
     # create the directory if it doesn't exist
     if not exists(file_path):
         os.mkdir(file_path)
-    with open(f"{file_path}/{file_name}.json") as out:
+    with open(f"{file_path}/{file_name}.json", "w", encoding="utf-8") as out:
         # save the json file
         json.dump(data, out, indent=4)
 
@@ -100,7 +102,9 @@ def evaluate_recipes(recipes: dict) -> Tuple[dict, dict]:
     return eligible_recipes, runner_ups
 
 
-def choose_recipes(eligible_recipes: dict, runner_ups: dict, all_recipes: dict, days: int) -> dict:
+def choose_recipes(
+    eligible_recipes: dict, runner_ups: dict, all_recipes: dict, days: int
+) -> dict:
     """
     function to randomly choose from eligible_recipes, if eligible_recipes
     doesn't contain enough items, it will use runner_ups to fill the remaining recipes
@@ -116,7 +120,7 @@ def choose_recipes(eligible_recipes: dict, runner_ups: dict, all_recipes: dict, 
             recipes.append(recipe)
 
     # choose x days of random recipes from the vetted recipes list
-    for i in range(days):
+    for _ in range(days):
         # choose a recipe
         recipe = choice(recipes)
 
@@ -134,13 +138,7 @@ def combine_ingredients(recipes: dict) -> dict:
     function to combine the ingredients for the provided recipes
     """
     # set up dictionary for each ingredient category
-    grocery_list = {
-        "meat": [],
-        "dairy": [],
-        "seasoning": [],
-        "produce": [],
-        "misc": []
-    }
+    grocery_list = {"meat": [], "dairy": [], "seasoning": [], "produce": [], "misc": []}
     # iterate through the recipes
     for recipe in recipes:
         # iterate through the ingredients for the recipes
