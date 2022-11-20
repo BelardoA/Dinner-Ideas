@@ -1,5 +1,4 @@
 """Python Script that will help you decide what to make for dinner for the week"""
-import json
 # TODO: add save functionality for weekly recipes
 
 # standard imports
@@ -48,4 +47,3 @@ if __name__ == "__main__":
     # print out the ingredients needed for the recipes
     console.rule("[bold red]Ingredients")
     pprint(ingredients)
-#    console.print(f"[green]{json.dumps(ingredients, sort_keys=True, indent=4)}")
