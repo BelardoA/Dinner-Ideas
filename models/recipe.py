@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 import datetime
-from ingredients import Ingredients
+from models.ingredients import Ingredients
 
 
 @dataclass
