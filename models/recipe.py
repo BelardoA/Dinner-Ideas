@@ -1,15 +1,16 @@
-""" Recipe class """
+""" Dataclass model for recipes """
 
 from dataclasses import dataclass
 import datetime
+from ingredients import Ingredients
 
 
 @dataclass
 class Recipe:
-    """Dataclass for recipe objects"""
+    """Recipe Model"""
 
     name: str  # Name of the recipe
-    ingredients: dict  # Dictionary of ingredients
+    ingredients: Ingredients  # Dictionary of ingredients
     last_cooked: datetime = None  # Last cooked date, defaults to never cooked
     fast_food: bool = False  # Fast food flag, defaults to False
 
