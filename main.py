@@ -8,6 +8,7 @@ from modules.functions import (
     load_json,
     evaluate_recipes,
     choose_recipes,
+    replace_recipe,
     combine_ingredients,
     get_fast_food,
 )
@@ -46,9 +47,26 @@ if __name__ == "__main__":
         fast_food_choice = get_fast_food()
         # add the selected fast food item to the menu
         menu.update({fast_food_choice: "fast food Friday!"})
-    # print out the menu in the console
-    console.rule("[bold red]Menu")
-    pprint(list(menu.keys()))
+    # menu verification
+    while True:
+        # print out the menu in the console
+        console.rule("[bold red]Menu")
+        pprint(list(menu.keys()))
+        console.rule("[bold yellow] Confirm menu")
+        answer: str = input("Y/n\n")
+        if answer == "" or answer[0].lower() == "y":
+            break
+        answer: str = input("Select meal to replace\n")
+        if answer == "":
+            break
+        else:
+            new_item = replace_recipe(
+                menu, eligible_recipes, runner_ups, recipes, answer
+            )
+            menu.pop(answer)
+            menu.pop(fast_food_choice)
+            menu[new_item.name] = new_item.dict()
+            menu.update({fast_food_choice: "fast food Friday!"})
     # print out the ingredients needed for the recipes
     console.rule("[bold red]Ingredients")
     pprint(ingredients)
