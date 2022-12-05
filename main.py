@@ -5,6 +5,7 @@ import sys
 from rich.pretty import pprint
 from modules.functions import (
     console,
+    date_to_str,
     load_json,
     evaluate_recipes,
     choose_recipes,
@@ -12,6 +13,7 @@ from modules.functions import (
     combine_ingredients,
     get_fast_food,
 )
+from datetime import datetime
 
 if __name__ == "__main__":
     # set the number of days we want recipes for
@@ -67,6 +69,11 @@ if __name__ == "__main__":
             menu.pop(fast_food_choice)
             menu[new_item.name] = new_item.dict()
             menu.update({fast_food_choice: "fast food Friday!"})
+    # update last_cooked
+    for item in menu:
+        if item == fast_food_choice: 
+            continue
+        menu[item]["last_cooked"] = date_to_str(datetime.now())
     # print out the ingredients needed for the recipes
     console.rule("[bold red]Ingredients")
     pprint(ingredients)
