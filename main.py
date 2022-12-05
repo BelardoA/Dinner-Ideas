@@ -71,7 +71,7 @@ if __name__ == "__main__":
             menu.update({fast_food_choice: "fast food Friday!"})
     # update last_cooked
     for item in menu:
-        if item == fast_food_choice: 
+        if item == fast_food_choice:
             continue
         menu[item]["last_cooked"] = date_to_str(datetime.now())
     # print out the ingredients needed for the recipes
