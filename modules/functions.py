@@ -1,5 +1,6 @@
 """All the functions that make the script work"""
 # Standard imports
+import collections
 import json
 import os
 import sys
@@ -133,6 +134,25 @@ def choose_recipes(
     return chosen_recipes
 
 
+def remove_duplicates(dupe_list: list) -> list:
+    """
+    function to combine duplicates from the provided list
+    and returns a count of the duplicate
+    """
+    # count the items in the provided list
+    counted_list = collections.Counter(dupe_list)
+    # create a list of the duplicate items
+    clean_list = [[i] * j for i, j in counted_list.items()]
+    # combine the # of duplicates with the item name
+    for item in clean_list:
+        index = clean_list.index(item)
+        if len(item) > 1:
+            clean_list[index] = f"{len(item)}x{item[0]}"
+        else:
+            clean_list[index] = item[0]
+    return clean_list
+
+
 def combine_ingredients(recipes: dict) -> dict:
     """
     function to combine the ingredients for the provided recipes
@@ -147,6 +167,9 @@ def combine_ingredients(recipes: dict) -> dict:
             for item in recipes[recipe]["ingredients"][ingredient]:
                 # add the item to the grocery_list dictionary
                 grocery_list[ingredient].append(item)
+    # remove duplicates from the list:
+    for item_list in grocery_list:
+        grocery_list[item_list] = remove_duplicates(grocery_list[item_list])
     # return the grocery list of all the ingredients in the appropriate lists
     return grocery_list
 
