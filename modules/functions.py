@@ -167,11 +167,12 @@ def combine_ingredients(recipes: dict) -> dict:
             for item in recipes[recipe]["ingredients"][ingredient]:
                 # add the item to the grocery_list dictionary
                 grocery_list[ingredient].append(item)
-    # remove duplicates from the list:
-    for item_list in grocery_list:
-        grocery_list[item_list] = remove_duplicates(grocery_list[item_list])
+    # remove duplicates from the list
+    clean_grocery_list = grocery_list
+    for item, item_list in grocery_list.items():
+        clean_grocery_list[item] = remove_duplicates(item_list)
     # return the grocery list of all the ingredients in the appropriate lists
-    return grocery_list
+    return clean_grocery_list
 
 
 def get_fast_food() -> str:
