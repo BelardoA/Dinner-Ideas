@@ -25,9 +25,9 @@ jobs:
         pip install pylint
         pip install -r requirements.txt
         pip install black
-    - name: Analysing the code with pylint
-      run: |
-        pylint $(git ls-files '*.py')
-    - name: Check Formatting
+    - name: Check Formatting with Black
       run: |
         black --check .
+    - name: Analysing the code with Pylint
+      run: |
+        pylint $(git ls-files '*.py')
