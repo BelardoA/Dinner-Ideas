@@ -137,7 +137,6 @@ def choose_recipes(
     return chosen_recipes
 
 
-
 def replace_recipe(
     menu: dict, eligible_recipes: dict, runner_ups: dict, recipes: dict, item: str
 ) -> Recipe:
