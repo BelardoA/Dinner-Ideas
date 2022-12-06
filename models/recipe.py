@@ -1,5 +1,6 @@
 """ Dataclass model for recipes """
 
+# standard imports
 from dataclasses import dataclass, asdict
 import datetime
 from models.ingredients import Ingredients
@@ -23,4 +24,5 @@ class Recipe:
         return setattr(self, key, value)
 
     def dict(self):
+        """reate a dictionary from the dataclass"""
         return {k: str(v) for k, v in asdict(self).items()}
