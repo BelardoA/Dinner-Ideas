@@ -1,17 +1,19 @@
-""" Recipe class """
+""" Dataclass model for recipes """
 
-from dataclasses import dataclass
+# standard imports
+from dataclasses import dataclass, asdict
 import datetime
+from models.ingredients import Ingredients
 
 
 @dataclass
 class Recipe:
-    """Dataclass for recipe objects"""
+    """Recipe Model"""
 
-    name: str  # Name of the recipe
-    ingredients: dict  # Dictionary of ingredients
-    last_cooked: datetime = None  # Last cooked date, defaults to never cooked
-    fast_food: bool = False  # Fast food flag, defaults to False
+    name: str  # Name of the recipe, required attribute
+    ingredients: Ingredients = None  # Dictionary of ingredients
+    last_cooked: datetime = None  # Last cooked date
+    fast_food: bool = False  # Fast food flag
 
     def __getitem__(self, key):
         """Attr getter"""
@@ -20,3 +22,7 @@ class Recipe:
     def __setitem__(self, key, value):
         """Attr setter"""
         return setattr(self, key, value)
+
+    def dict(self):
+        """reate a dictionary from the dataclass"""
+        return {k: str(v) for k, v in asdict(self).items()}

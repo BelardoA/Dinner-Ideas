@@ -11,6 +11,9 @@ from typing import Tuple
 
 from rich.console import Console
 
+from models.recipe import Recipe
+from models.ingredients import Ingredients
+
 console = Console()
 today = datetime.now()
 
@@ -132,6 +135,28 @@ def choose_recipes(
         recipes.pop(recipes.index(recipe))
     # return the chosen recipes
     return chosen_recipes
+
+
+def replace_recipe(
+    menu: dict, eligible_recipes: dict, runner_ups: dict, recipes: dict, item: str
+) -> Recipe:
+    """
+    function to generate a new menu item that is NOT in the current menu
+    """
+    new_recipe = None
+    if menu == eligible_recipes:
+        new_recipe = choice(list(runner_ups))
+    else:
+        while True:
+            new_recipe = choice(list(eligible_recipes))
+            if new_recipe not in menu and new_recipe is not item:
+                break
+    return Recipe(
+        new_recipe,
+        Ingredients(
+            [recipes[new_recipe]["ingredients"]], recipes[new_recipe]["last_cooked"]
+        ),
+    )
 
 
 def remove_duplicates(dupe_list: list) -> list:

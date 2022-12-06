@@ -8,6 +8,7 @@ from modules.functions import (
     load_json,
     evaluate_recipes,
     choose_recipes,
+    replace_recipe,
     combine_ingredients,
     get_fast_food,
 )
@@ -16,7 +17,7 @@ if __name__ == "__main__":
     # set the number of days we want recipes for
     RECIPE_DAYS = 7
     # ask the user if they want to get fast food for Friday
-    answer: str = input("Fast food Friday?\nEnter Y/n\n")
+    answer: str = input("Fast food Friday?\nEnter Y/n: ")
     # evaluate the user import
     if answer[0].lower() == "y":
         # user wants fast food fridays, so take away a day from # of days for recipes
@@ -46,9 +47,53 @@ if __name__ == "__main__":
         fast_food_choice = get_fast_food()
         # add the selected fast food item to the menu
         menu.update({fast_food_choice: "fast food Friday!"})
-    # print out the menu in the console
+    # menu verification
+    while True:
+        # get a list of menu items
+        menu_list = {}
+        menu_items = list(menu.keys())
+        for item in menu_items:
+            menu_list[menu_items.index(item)] = item
+        # print out the menu in the console
+        console.rule("[bold red]Menu")
+        pprint(menu_list)
+        console.rule("[bold yellow] Confirm menu")
+        answer: str = input("\nWould you like to make any changes?\nEnter Y/n: ")
+        if answer == "" or answer[0].lower() == "n":
+            break
+        # ask user which menu item they would like to replace
+        answer: str = input("Enter menu number or item you'd like to replace: ")
+        # check if answer is in the menu items, user can enter number or menu item
+        if answer in menu_items:
+            # answer was a string of menu item, replace that item
+            new_item = replace_recipe(
+                menu=menu,
+                eligible_recipes=eligible_recipes,
+                runner_ups=runner_ups,
+                recipes=recipes,
+                item=answer,
+            )
+        elif int(answer) < len(menu_items):
+            # answer was # of menu item, replace that item
+            answer = menu_items[int(answer)]
+            new_item = replace_recipe(
+                menu=menu,
+                eligible_recipes=eligible_recipes,
+                runner_ups=runner_ups,
+                recipes=recipes,
+                item=answer,
+            )
+        else:
+            # user entered invalid option, print out error message and exit
+            console.print("[red]ERROR: Invalid selection!")
+            sys.exit(1)
+        # remove menu item user selected
+        menu.pop(answer)
+        # add new random item to the menu
+        menu[new_item.name] = new_item.dict()
+    # print confirmed menu
     console.rule("[bold red]Menu")
-    pprint(list(menu.keys()))
+    pprint(menu_list)
     # print out the ingredients needed for the recipes
     console.rule("[bold red]Ingredients")
     pprint(ingredients)
