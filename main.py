@@ -84,9 +84,12 @@ if __name__ == "__main__":
                 item=answer,
             )
         else:
+            # user entered invalid option, print out error message and exit
             console.print("[red]ERROR: Invalid selection!")
             sys.exit(1)
+        # remove menu item user selected
         menu.pop(answer)
+        # add new random item to the menu
         menu[new_item.name] = new_item.dict()
     # print confirmed menu
     console.rule("[bold red]Menu")
