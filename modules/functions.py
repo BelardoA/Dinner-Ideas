@@ -221,14 +221,14 @@ def update_last_cooked(menu: dict) -> None:
     todays_date = today.strftime("%m/%d/%Y")
 
     # load recipe_list.json from database directory
-    menu_data = load_json(file_path="database", file_name="recipe_list")
+    recipe_data = load_json(file_path="database", file_name="recipe_list")
 
     # iterate through the provided dictionary and update the last_cooked value
-    for item in menu:
+    for recipe in menu.values():
         # see if item exists in the recipe_list.json date
-        if item in menu_data:
+        if recipe in recipe_data:
             # update last cooked
-            menu_data[item]["last_cooked"] = todays_date
+            recipe_data[recipe]["last_cooked"] = todays_date
 
     # save the updated recipe_list.json
-    save_json(file_path="database", file_name="recipe_list", data=menu_data)
+    save_json(file_path="database", file_name="recipe_list", data=recipe_data)

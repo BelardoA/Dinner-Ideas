@@ -2,15 +2,18 @@
 
 # standard imports
 import sys
+
 from rich.pretty import pprint
+
 from modules.functions import (
-    console,
-    load_json,
-    evaluate_recipes,
     choose_recipes,
-    replace_recipe,
     combine_ingredients,
+    console,
+    evaluate_recipes,
     get_fast_food,
+    load_json,
+    replace_recipe,
+    update_last_cooked,
 )
 
 if __name__ == "__main__":
@@ -97,3 +100,5 @@ if __name__ == "__main__":
     # print out the ingredients needed for the recipes
     console.rule("[bold red]Ingredients")
     pprint(ingredients)
+    # update last_cooked in recipe_list.json
+    update_last_cooked(menu_list)
