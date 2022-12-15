@@ -211,3 +211,24 @@ def get_fast_food() -> str:
     fast_food_choice = choice(fast_food["fastfood"])
     # return the selection as a string
     return fast_food_choice
+
+
+def update_last_cooked(menu: dict) -> None:
+    """
+    function to update the last cooked for the approved menu by the user
+    """
+    # get today's date from global today variable
+    todays_date = today.strftime("%m/%d/%Y")
+
+    # load recipe_list.json from database directory
+    menu_data = load_json(file_path="database", file_name="recipe_list")
+
+    # iterate through the provided dictionary and update the last_cooked value
+    for item in menu:
+        # see if item exists in the recipe_list.json date
+        if item in menu_data:
+            # update last cooked
+            menu_data[item]["last_cooked"] = todays_date
+
+    # save the updated recipe_list.json
+    save_json(file_path="database", file_name="recipe_list", data=menu_data)
